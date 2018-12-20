@@ -27,7 +27,7 @@ definition(
 
 preferences {
     section ("Set for which mode(s)") {
-        input "enmodes", "mode", title: "select a mode(s)", multiple: true
+        input "enModes", "mode", title: "select a mode(s)", multiple: true
     }
 	section ("At sunrise...") {
 		input "sunriseMode", "mode", title: "Change mode to?", required: false
@@ -118,131 +118,76 @@ def astroCheck() {
 // TODO: implement event handlers
 
 def sunriseHandler() {
-	if (location.mode != enmodes) {
-		log.info "$location.mode mode, $enmodes has overridden sunrise handler"
-    } else {
-		log.info "Executing sunrise handler"
+	if (enModes.contains(location.mode)) {
+        log.info "Executing sunrise handler"
 		if (sunriseOn) {
 			sunriseOn.on()
 		}
 		if (sunriseOff) {
 			sunriseOff.off()
 		}
-		changeMode(sunriseMode)
+		changeMode(sunriseMode)		
+    } else {
+		log.info "Current $location.mode mode has overridden sunrise handler"
 	}
 }
 
 
 def sunsetHandler() {
-
-	if (location.mode != enmodes) {
-
-		log.info "Current mode has overridden sunrise handler"
-
-    } else {
-
+	if (enModes.contains(location.mode)) {
 		log.info "Executing sunset handler"
-
 		if (sunsetOn) {
-
 			sunsetOn.on()
-
 		}
-
 		if (sunsetOff) {
-
 			sunsetOff.off()
-
 		}
-
 		changeMode(sunsetMode)
-
+    } else {
+		log.info "Current $location.mode mode has overridden sunrise handler"
 	}
-
 }
 
 def changeMode(newMode) {
-
 	if (newMode && location.mode != newMode) {
-
 		if (location.modes?.find{it.name == newMode}) {
-
 			setLocationMode(newMode)
-
 			send "${label} has changed the mode to '${newMode}'"
-
 		}
-
 		else {
-
 			send "${label} tried to change to undefined mode '${newMode}'"
-
 		}
-
 	}
-
 }
 
-
-
 private send(msg) {
-
     if (location.contactBookEnabled) {
-
         log.debug("sending notifications to: ${recipients?.size()}")
-
         sendNotificationToContacts(msg, recipients)
-
     }
-
     else {
-
         if (sendPushMessage != "No") {
-
             log.debug("sending push message")
-
             sendPush(msg)
-
         }
-
-
-
         if (phoneNumber) {
-
             log.debug("sending text message")
-
             sendSms(phoneNumber, msg)
-
         }
-
     }
-
-
-
 	log.debug msg
-
 }
 
 
 
 private getLabel() {
-
 	app.label ?: "SmartThings"
-
 }
-
-
 
 private getSunriseOffset() {
-
 	sunriseOffsetValue ? (sunriseOffsetDir == "Before" ? "-$sunriseOffsetValue" : sunriseOffsetValue) : null
-
 }
 
-
-
 private getSunsetOffset() {
-
 	sunsetOffsetValue ? (sunsetOffsetDir == "Before" ? "-$sunsetOffsetValue" : sunsetOffsetValue) : null
-
 }
