@@ -1,7 +1,7 @@
 /**
  *  Front Yard SmartApp
  *
- *  Copyright 2018 Paul Ng
+ *  Copyright 2017 Paul Ng
  *
  *  Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except
  *  in compliance with the License. You may obtain a copy of the License at:
@@ -118,7 +118,7 @@ def astroCheck() {
 // TODO: implement event handlers
 
 def sunriseHandler() {
-	if (enModes.contains(location.mode)) {
+	if (location.mode in enModes) {
         log.info "Executing sunrise handler"
 		if (sunriseOn) {
 			sunriseOn.on()
