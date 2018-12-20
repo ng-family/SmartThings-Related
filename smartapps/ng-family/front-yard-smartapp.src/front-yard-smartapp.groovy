@@ -134,8 +134,9 @@ def sunriseHandler() {
 
 
 def sunsetHandler() {
-	if (enModes.contains(location.mode)) {
-		log.info "Executing sunset handler"
+//	if (enModes.contains(location.mode)) {
+	if (location.mode in enModes) {
+	log.info "Executing sunset handler"
 		if (sunsetOn) {
 			sunsetOn.on()
 		}
