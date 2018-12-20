@@ -26,9 +26,9 @@ definition(
 
 
 preferences {
-    section ("Set for which mode(s)") {
-        input "enModes", "mode", title: "select a mode(s)", multiple: true
-    }
+//    section ("Set for which mode(s)") {
+//        input "enModes", "mode", title: "select a mode(s)", multiple: true
+//    }
 	section ("At sunrise...") {
 		input "sunriseMode", "mode", title: "Change mode to?", required: false
 		input "sunriseOn", "capability.switch", title: "Turn on?", required: false, multiple: true
@@ -118,7 +118,7 @@ def astroCheck() {
 // TODO: implement event handlers
 
 def sunriseHandler() {
-	if (location.mode in enModes) {
+	if (location.mode != "Dark") {
         log.info "Executing sunrise handler"
 		if (sunriseOn) {
 			sunriseOn.on()
@@ -134,8 +134,7 @@ def sunriseHandler() {
 
 
 def sunsetHandler() {
-//	if (enModes.contains(location.mode)) {
-	if (location.mode in enModes) {
+	if (location.mode != "Dark") {
 	log.info "Executing sunset handler"
 		if (sunsetOn) {
 			sunsetOn.on()
