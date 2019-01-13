@@ -19,32 +19,59 @@ definition(
     author: "Paul Ng",
     description: "Selecting a 'canary' bulb, perform actions when bulb is on",
     category: "Convenience",
-    iconUrl: "https://s3.amazonaws.com/smartapp-icons/Convenience/Cat-Convenience.png",
-    iconX2Url: "https://s3.amazonaws.com/smartapp-icons/Convenience/Cat-Convenience@2x.png",
-    iconX3Url: "https://s3.amazonaws.com/smartapp-icons/Convenience/Cat-Convenience@2x.png")
-
+    iconUrl: "https://s3.amazonaws.com/smartapp-icons/Convenience/App-LightUpMyWorld.png",
+	iconX2Url: "https://s3.amazonaws.com/smartapp-icons/Convenience/App-LightUpMyWorld@2x.png"
+)
 
 preferences {
-	section("Title") {
-		// TODO: put inputs here
-	}
+	section("Canary Bulb") {
+        input "canarybulb", "capability.switch", title: "Which bulb?"
+    }
+    section("Devices you want to turn off if the Canary lights up") {    
+        input "zigbeebulbs","capability.switch", multiple: true
+    }
 }
 
 def installed() {
 	log.debug "Installed with settings: ${settings}"
-
 	initialize()
 }
 
 def updated() {
 	log.debug "Updated with settings: ${settings}"
-
 	unsubscribe()
 	initialize()
 }
 
 def initialize() {
-	// TODO: subscribe to attributes, devices, locations, etc.
+	subscribe(canarybulb,"switch.on", checkCanary)
+    pollCanary()
+    runEvery5Minutes(checkCanary)
 }
 
-// TODO: implement event handlers
+def checkCanary(evt) {
+    log.debug "Checking Canary Bulb"
+    pollCanary()
+    log.debug "Canary Bulb is ${canarybulb.currentSwitch}"
+    if ("on" == canarybulb.currentSwitch) {
+        log.debug "Turning off Zig Bee bulbs"
+        zigbeebulbs?.each {
+            log.debug "Turning $it.label off"
+            it.off()
+        }
+        log.debug "Turning $canarybulb.label off"
+        canarybulb.off()
+    }
+}
+
+private pollCanary() {
+    def hasPoll = canarybulb.hasCommand("poll")
+    if (hasPoll) {
+        canarybulb.poll()
+    }
+    else
+    {
+        canarybulb.refresh()
+    }
+}
+
