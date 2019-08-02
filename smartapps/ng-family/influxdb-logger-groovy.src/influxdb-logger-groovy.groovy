@@ -775,8 +775,14 @@ private escapeStringForInfluxDB(str) {
 private getGroupName(id) {
 
     if (id == null) {return 'Home'}
-    else if (id == 'XXXXXXXX-XXXX-XXXX-XXXX-XXXXXXXXXXXX') {return 'Kitchen'}
-    else if (id == 'XXXXXXXX-XXXX-XXXX-XXXX-XXXXXXXXXXXX') {return 'Lounge'}
-    else if (id == 'XXXXXXXX-XXXX-XXXX-XXXX-XXXXXXXXXXXX') {return 'Office'}
+    else if (id == 'c9716e4b-d0c1-482b-b9f3-1be14aa6029e') {return 'Kitchen'}
+    else if (id == '1c8f170c-1cb8-46c6-84aa-e9021bbc4654') {return 'Living Room'}
+    else if (id == '2239a35d-533b-4108-8e91-f5a8213f8b58') {return 'Kids Room'}
+    else if (id == '3ef2296b-146f-4a6f-95df-426c4cdb19ba') {return 'Front Room'}
+    else if (id == '6e0a4f91-9ebe-480d-8c4c-c8b43668e883') {return 'Bedroom'}
+    else if (id == 'cfb3afff-f792-49a7-bda8-b3808b1c907e') {return 'Sensors'}
+    else if (id == 'f16a65fc-e23a-4abb-a582-630ea1ae07a6') {return 'Maintenance'}
+    else if (id == 'f1ee71df-46e3-41ed-b33b-56e518cb7ac2') {return 'Security'}
+    else if (id == 'f4a35292-70fe-4c54-b9c4-e3263f62f168') {return 'Front Yard'}
     else {return 'Unknown'}    
 }
