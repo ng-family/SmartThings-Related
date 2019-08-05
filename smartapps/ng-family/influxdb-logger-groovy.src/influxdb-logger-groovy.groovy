@@ -775,7 +775,7 @@ private escapeStringForInfluxDB(str) {
 private getGroupName(id) {
 
     if (id == null) {return 'Home'}
-    else if (id == 'c9716e4b-d0c1-482b-b9f3-1be14aa6029e') {return 'Kitchen'}
+    else if (id == '0f0b9c9f-1884-4031-b4b8-35929913621b') {return 'Kitchen'}
     else if (id == '1c8f170c-1cb8-46c6-84aa-e9021bbc4654') {return 'Living Room'}
     else if (id == '2239a35d-533b-4108-8e91-f5a8213f8b58') {return 'Kids Room'}
     else if (id == '3ef2296b-146f-4a6f-95df-426c4cdb19ba') {return 'Front Room'}
